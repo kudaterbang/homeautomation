@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+</head>
+
+<body style="margin-left: auto; margin-right: auto;">
+<% if (message) { %>
+<p><%= message %></p>
+<% } %>
+<form action="/login" method="post" style="margin: 0px auto;">
+	<div>
+	<label>Username:</label>
+	<input type="text" name="username"/><br/>
+	</div>
+	<div>
+	<label>Password:</label>
+	<input type="password" name="password"/>
+	</div>
+	<div>
+	<input type="submit" value="Submit"/>
+	</div>
+</form>
+<p><small>Hint - kudaponi:rahasia</small></p>
+</body>

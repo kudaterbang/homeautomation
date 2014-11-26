@@ -1,0 +1,85 @@
+<% if (!user) { %>
+	<h2>You have to login first to access this application</h2>
+	<a href='/login'>Login</a>
+<% } else { %>
+	
+	<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Ada relay dirumahkuuu~</title>
+    <meta charset="utf-8">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/smoothness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+  </head>
+  <body>
+	<!--Add two buttons a user can click-->
+	<p><b>Relay 1</b></p>
+	<button type="button" id="on">On</button>
+	<button type="button" id="off">Off</button>
+	<br/><br/>
+	<p><b>Relay 2</b></p>
+	<button type="button" id="on2">On</button>
+	<button type="button" id="off2">Off</button>
+	<br/><br/>
+	<p><b>Relay 3</b></p>
+	<button type="button" id="on3">On</button>
+	<button type="button" id="off3">Off</button>
+	<br/><br/>
+	<p><b>Relay 4</b></p>
+	<button type="button" id="on4">On</button>
+	<button type="button" id="off4">Off</button>
+	
+	<br/><br/>
+	<a href="/logout">Logout</a>
+	
+	<!--Using JQuery for button events-->
+	<script src="js/jquery.min.js"></script>
+	<!--Socket.io library-->
+	<script src="http://192.168.0.101:4300/socket.io/socket.io.js"></script>
+	<script>
+	  $(document).ready(function() {
+		// Connect to the node.js server. Change the IP address to the actual node server location.
+		//var socket = io.connect('http://192.168.0.110:4300');
+		var socket = io.connect();
+		// When I've received 'robot connected' message from the socket.io server...
+		socket.on('robot connected', function (data) {
+		  console.log(data);
+		  // Send out a message to the server
+		  socket.emit('robot command', { command: 'nothing' });
+		});
+
+		// When the html buttons are clicked...
+		$('#on').click(function() {
+		  socket.emit('robot command', { command: 'relay1_on' });
+		});
+		$('#off').click(function() {
+		  socket.emit('robot command', { command: 'relay1_off' });
+		});
+		
+		$('#on2').click(function() {
+		  socket.emit('robot command', { command: 'relay2_on' });
+		});
+		$('#off2').click(function() {
+		  socket.emit('robot command', { command: 'relay2_off' });
+		});
+
+		$('#on3').click(function() {
+		  socket.emit('robot command', { command: 'relay3_on' });
+		});
+		$('#off3').click(function() {
+		  socket.emit('robot command', { command: 'relay3_off' });
+		});
+
+		$('#on4').click(function() {
+		  socket.emit('robot command', { command: 'relay4_on' });
+		});
+		$('#off4').click(function() {
+		  socket.emit('robot command', { command: 'relay4_off' });
+		});
+	  });
+	</script>
+  </body>
+</html>
+	
+<% } %>

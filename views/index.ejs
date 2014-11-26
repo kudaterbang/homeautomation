@@ -1,0 +1,178 @@
+<% if (!user) { %>
+	<h2>You have to login first to access this application</h2>
+	<a href='/login'>Login</a>
+<% } else { %>
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Home Automation</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<link href="css/styles.css" rel="stylesheet">
+	</head>
+	<body>
+<div class="page-container">
+  
+	<!-- top navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    	<div class="navbar-header">
+           <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".sidebar-nav">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+           </button>
+           <a class="navbar-brand" href="#">Harry Busyran</a>
+    	</div>
+    </nav>
+      
+    <div class="container-fluid">
+      <div class="row row-offcanvas row-offcanvas-left">
+        
+        <!--sidebar-->
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+          <div data-spy="affix" data-offset-top="45" data-offset-bottom="90">
+            <ul class="nav" id="sidebar-nav">
+              <li><a href="#">Home</a></li>
+              <li><a href="/logout">Logout</a></li>
+            </ul>
+           </div>
+        </div><!--/sidebar-->
+  	
+        <!--/main-->
+        <div class="col-xs-12 col-sm-9" data-spy="scroll" data-target="#sidebar-nav">
+          
+          <h1 id="section1">Ruangan 1</h1>
+
+			<div class="panel panel-default">
+				<div class="panel-heading"><a href="#" class="pull-right">2 kWh</a> <h4>Peralatan</h4></div>
+					<div class="panel-body">
+						<ul class="list-group">
+							<li class="list-group-item">
+								<span href="#" class="btn-group btn-toggle pull-right"> 
+									<button class="btn btn-xs btn-default" id="on">On</button>
+									<button class="btn btn-xs btn-primary active" id="off">Off</button>
+								</span>  
+								Lampu 1
+							</li>
+							<li class="list-group-item">
+								<span href="#" class="btn-group btn-toggle pull-right"> 
+									<button class="btn btn-xs btn-default" id="on2">On</button>
+									<button class="btn btn-xs btn-primary active" id="off2">Off</button>
+								</span>
+								Lampu 2
+							</li>
+							<li class="list-group-item">
+								<span href="#" class="btn-group btn-toggle pull-right"> 
+									<button class="btn btn-xs btn-default" id="on3">On</button>
+									<button class="btn btn-xs btn-primary active" id="off3">Off</button>
+								</span>
+								Lampu 3
+							</li>
+							<li class="list-group-item">
+								<span href="#" class="btn-group btn-toggle pull-right"> 
+									<button class="btn btn-xs btn-default" id="on4">On</button>
+									<button class="btn btn-xs btn-primary active" id="off4">Off</button>
+								</span>
+								Lampu 4
+							</li>
+						</ul>
+					</div><!--/panel-body-->
+			</div><!--/panel-->
+      </div><!--/.row-->
+    </div>
+  </div><!--/.container-->
+</div><!--/.page-container-->
+  
+<footer><!--footer-->
+  <div class="container">
+      	<div class="row">
+          <ul class="list-unstyled text-right">
+            <li class="col-sm-4 col-xs-6">
+              <a href="#">About</a>
+            </li>
+            <li class="col-sm-4 col-xs-6">
+              <a href="#">Services</a>
+            </li>
+            <li class="col-sm-4 col-xs-6">
+              <a href="#">Studies</a>
+            </li>
+            <li class="col-sm-4 col-xs-6">
+              <a href="#">References</a>
+            </li>
+            <li class="col-sm-4 col-xs-6">
+              <a href="#">Login</a>
+            </li>
+           <li class="col-sm-4 col-xs-6">
+              <a href="#">Press</a>
+            </li>
+            <li class="col-sm-4 col-xs-6">
+              <a href="#">Contact</a>
+            </li>
+            <li class="col-sm-4 col-xs-6">
+              <a href="#">Impressum</a>
+            </li>
+          </ul>
+		</div><!--/row-->
+    </div><!--/container-->
+</footer>
+        
+	<!-- script references -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/scripts.js"></script>
+	</body>
+	
+	<!--Using JQuery for button events-->
+	<script src="js/jquery.min.js"></script>
+	<!--Socket.io library-->
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	  $(document).ready(function() {
+		// Connect to the node.js server. Change the IP address to the actual node server location.
+		var socket = io.connect();
+		// When I've received 'robot connected' message from the socket.io server...
+		socket.on('robot connected', function (data) {
+		  console.log(data);
+		  // Send out a message to the server
+		  socket.emit('robot command', { command: 'nothing' });
+		});
+
+		// When the html buttons are clicked...
+		$('#on').click(function() {
+		  socket.emit('robot command', { command: 'relay1_on' });
+		});
+		$('#off').click(function() {
+		  socket.emit('robot command', { command: 'relay1_off' });
+		});
+		
+		$('#on2').click(function() {
+		  socket.emit('robot command', { command: 'relay2_on' });
+		});
+		$('#off2').click(function() {
+		  socket.emit('robot command', { command: 'relay2_off' });
+		});
+
+		$('#on3').click(function() {
+		  socket.emit('robot command', { command: 'relay3_on' });
+		});
+		$('#off3').click(function() {
+		  socket.emit('robot command', { command: 'relay3_off' });
+		});
+
+		$('#on4').click(function() {
+		  socket.emit('robot command', { command: 'relay4_on' });
+		});
+		$('#off4').click(function() {
+		  socket.emit('robot command', { command: 'relay4_off' });
+		});
+	  });
+	</script>
+</html>	
+<% } %>
